@@ -52,7 +52,7 @@
         </constraints>
         <properties/>
       </component>
-      <component id="bd3c3" class="javax.swing.JTextField" binding="txt_senha_user">
+      <component id="cbb3b" class="javax.swing.JPasswordField" binding="txt_senha_user">
         <constraints>
           <grid row="3" column="0" row-span="1" col-span="1" vsize-policy="0" hsize-policy="6" anchor="9" fill="0" indent="5" use-parent-layout="false">
             <preferred-size width="200" height="24"/>
