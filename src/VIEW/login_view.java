@@ -4,24 +4,56 @@ import DAO.user_dao;
 import DTO.user_dto;
 
 import javax.swing.*;
+import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 
 public class login_view extends JFrame {
-    private JPasswordField txt_senha_user;
-    private JButton bt_entra;
-    private JTextField txt_nome_user;
-    private JPanel painel_login;
+    JPasswordField txt_senha_user;
+    JLabel lb_titulo, lb_nome, lb_senha;
+    JButton bt_entra;
+    JTextField txt_nome_user;
 
     public login_view() {
-       setContentPane(painel_login);
-       setTitle("Login");
-       setDefaultCloseOperation(EXIT_ON_CLOSE);
-       setSize(500,400);
-       setVisible(true);
-       bt_entra.addActionListener(new ActionListener() {
+        setTitle("Login");
+        setDefaultCloseOperation(EXIT_ON_CLOSE);
+        setSize(400,500);
+        setLocationRelativeTo(null);
+        setResizable(false);
+        getContentPane().setBackground(Color.lightGray);
+        setLayout(null);
+
+        lb_titulo = new JLabel("Construir Futuro");
+        lb_titulo.setBounds(100, 50, 400, 50);
+        lb_titulo.setFont(new Font("Arial Black",20,20));
+        add(lb_titulo);
+
+        lb_nome = new JLabel("Nome de Usuario");
+        lb_nome.setBounds(50, 120, 200, 50);
+        lb_nome.setFont(new Font("Arial Black",20,14));
+        add(lb_nome);
+
+        txt_nome_user = new JTextField();
+        txt_nome_user.setBounds(50, 160, 250, 20);
+        add(txt_nome_user);
+
+        lb_senha = new JLabel("Senha");
+        lb_senha.setBounds(50, 190, 200, 50);
+        lb_senha.setFont(new Font("Arial Black",20,14));
+        add(lb_senha);
+
+        txt_senha_user = new JPasswordField();
+        txt_senha_user.setBounds(50, 230, 250, 20);
+        add(txt_senha_user);
+
+        bt_entra = new JButton("Entrar");
+        bt_entra.setBounds(90, 300, 200, 40);
+        add(bt_entra);
+
+        setVisible(true);
+        bt_entra.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
                 logar();

@@ -2,16 +2,7 @@ package DTO;
 
 public class user_dto {
 
-    private int id_usuario;
     private String nome_usuario,senha_usuario;
-
-    public int getId_usuario() {
-        return id_usuario;
-    }
-
-    public void setId_usuario(int id_usuario) {
-        this.id_usuario = id_usuario;
-    }
 
     public String getNome_usuario() {
         return nome_usuario;
