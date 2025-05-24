@@ -6,6 +6,15 @@ public class jovens_dto {
     private String cpf_jovem;
     private String sexo_jovem;
     private String supervisor_jovem;
+    private int id_jovem;
+
+    public int getId_jovem() {
+        return id_jovem;
+    }
+
+    public void setId_jovem(int id_jovem) {
+        this.id_jovem = id_jovem;
+    }
 
     public String getNome_jovem() {
         return nome_jovem;
