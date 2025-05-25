@@ -5,6 +5,7 @@ import DTO.jovens_dto;
 
 import javax.swing.*;
 import javax.swing.table.DefaultTableModel;
+import javax.swing.table.TableCellRenderer;
 import java.awt.*;
 import java.awt.event.*;
 import java.sql.SQLException;
@@ -21,7 +22,6 @@ public class jovens_view extends JFrame {
     JScrollPane sp_tabela;
 
     public jovens_view(){
-        setTitle("Jovens");
         setSize(600,500);
         setLocationRelativeTo(null);
         setUndecorated(true);
@@ -121,23 +121,23 @@ public class jovens_view extends JFrame {
         add(txt_supervisor);
 
         bt_cadastro = new JButton("Cadastro");
-        bt_cadastro.setBounds(70, 300, 90, 30);
+        bt_cadastro.setBounds(350, 80, 90, 30);
         add(bt_cadastro);
 
         bt_apaga = new JButton("Apagar");
-        bt_apaga.setBounds(165, 300, 90, 30);
+        bt_apaga.setBounds(445, 80, 90, 30);
         add(bt_apaga);
 
         bt_atualiza = new JButton("Atualizar");
-        bt_atualiza.setBounds(70, 350, 90, 30);
+        bt_atualiza.setBounds(350, 130, 90, 30);
         add(bt_atualiza);
 
         bt_limpa = new JButton("Limpa");
-        bt_limpa.setBounds(165, 350, 90, 30);
+        bt_limpa.setBounds(445, 130, 90, 30);
         add(bt_limpa);
 
         bt_volta = new JButton("Voltar");
-        bt_volta.setBounds(500, 450, 90, 30);
+        bt_volta.setBounds(500, 30, 90, 30);
         add(bt_volta);
 
         bt_cadastro.addActionListener(new ActionListener() {
@@ -167,6 +167,7 @@ public class jovens_view extends JFrame {
                 jovens_dao objjovensdao = new jovens_dao();
                 objjovensdao.cadastrajovem(objjovensdto);
 
+                limpar();
                 lista_jovem();
             }
         });
@@ -194,6 +195,8 @@ public class jovens_view extends JFrame {
 
                 jovens_dao objjovensdao = new jovens_dao();
                 objjovensdao.atualiza_jovens(objjovensdto);
+
+                limpar();
                 lista_jovem();
             }
         });
@@ -210,6 +213,8 @@ public class jovens_view extends JFrame {
 
                 jovens_dao objjovensdao = new jovens_dao();
                 objjovensdao.apaga_jovens(objjovensdto);
+
+                limpar();
                 lista_jovem();
             }
         });
@@ -217,11 +222,7 @@ public class jovens_view extends JFrame {
         bt_limpa.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                txt_id.setText("");
-                txt_nome.setText("");
-                sp_idade.setValue(0);
-                txt_cpf.setText("");
-                txt_supervisor.setText("");
+                limpar();
             }
         });
 
@@ -269,8 +270,47 @@ public class jovens_view extends JFrame {
                         lista.get(num).getSupervisor_jovem()
                 });
             }
+            ajustarLarguraColunas(tb_jovem);
+            ajustarTamanhoScrollPane();
         } catch (Exception e) {
             JOptionPane.showMessageDialog(null, "Lista Jovem " + e);
         }
+    }
+    private void ajustarLarguraColunas(JTable tabela) {
+        for (int coluna = 0; coluna < tabela.getColumnCount(); coluna++) {
+            int larguraMaxima = 50; // largura mínima
+
+            for (int linha = 0; linha < tabela.getRowCount(); linha++) {
+                TableCellRenderer renderizador = tabela.getCellRenderer(linha, coluna);
+                Component componente = tabela.prepareRenderer(renderizador, linha, coluna);
+                larguraMaxima = Math.max(componente.getPreferredSize().width + 10, larguraMaxima);
+            }
+
+            // Considera também o tamanho do cabeçalho
+            TableCellRenderer cabeçalhoRenderer = tabela.getTableHeader().getDefaultRenderer();
+            Component cabecalhoComponente = cabeçalhoRenderer.getTableCellRendererComponent(
+                    tabela, tabela.getColumnName(coluna), false, false, 0, coluna);
+            larguraMaxima = Math.max(cabecalhoComponente.getPreferredSize().width + 10, larguraMaxima);
+
+            tabela.getColumnModel().getColumn(coluna).setPreferredWidth(larguraMaxima);
+        }
+    }
+    private void ajustarTamanhoScrollPane() {
+        int larguraTotal = 0;
+        for (int i = 0; i < tb_jovem.getColumnCount(); i++) {
+            larguraTotal += tb_jovem.getColumnModel().getColumn(i).getPreferredWidth();
+        }
+
+        int altura = sp_tabela.getPreferredSize().height;
+
+        sp_tabela.setPreferredSize(new Dimension(larguraTotal, altura));
+        sp_tabela.setBounds(50, 280, larguraTotal + 20, 200);
+    }
+    private void limpar(){
+        txt_id.setText("");
+        txt_nome.setText("");
+        sp_idade.setValue(0);
+        txt_cpf.setText("");
+        txt_supervisor.setText("");
     }
 }
